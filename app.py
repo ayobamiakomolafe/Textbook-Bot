@@ -15,7 +15,6 @@ import time
 import streamlit as st
 from streamlit_chat import message
 
-load_dotenv()
 api_key_1 = st.secrets["GROQ_API_KEY_1"]
 api_key_2 = st.secrets["GROQ_API_KEY_2"]
 
