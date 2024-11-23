@@ -1,18 +1,23 @@
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+import streamlit as st
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from dotenv import load_dotenv
 import os
 import time
 import streamlit as st
 from streamlit_chat import message
 
 load_dotenv()
-api_key_1 = os.getenv("GROQ_API_KEY_1")
-api_key_2 = os.getenv("GROQ_API_KEY_2")
+api_key_1 = st.secrets["GROQ_API_KEY_1"]
+api_key_2 = st.secrets["GROQ_API_KEY_2"]
 
 # Streamed response emulator
 def response_generator(response):
