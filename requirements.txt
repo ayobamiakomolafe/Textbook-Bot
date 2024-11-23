@@ -1,7 +1,7 @@
 langchain-groq==0.2.1
 streamlit-chat==0.1.1
-langchain==0.2.14
-langchain-community==0.2.11
-langchain-core==0.2.34
+langchain==0.3.7
+langchain-community==0.3.7
+langchain-core==0.3.19
 pysqlite3-binary==0.5.3
 protobuf==3.20.*
