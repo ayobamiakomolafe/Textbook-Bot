@@ -26,7 +26,7 @@ def response_generator(response):
 
 embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-base-en-v1.5")
 
-db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
+db = FAISS.load_local("faiss_index_", embeddings, allow_dangerous_deserialization=True)
 
 retriever = db.as_retriever(search_kwargs={"k": 3})
 
