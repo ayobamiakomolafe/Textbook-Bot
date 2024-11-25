@@ -23,6 +23,15 @@ def response_generator(response):
     for word in response.split(" "):
         yield word + " "
         time.sleep(0.05)
+        
+dico = {"Barbara J. Aehlert - ACLS Study Guide-Elsevier (2021)": 11, 
+        "David Taggart, Yasir Abu-Omar - Core Concepts in Cardiac Surgery-Oxford University Press (2018)":11, 
+        "Florian Falter, Albert C. Perrino, Jr., Robert A. Baker - Cardiopulmonary Bypass-Cambridge University Press (2022)":11,
+        "Gregory S. Matte - Perfusion for Congenital Heart Surgery_ Notes on Cardiopulmonary Bypass for a Complex Patient Population-Wiley-Blackwell (2015)":14,
+        "John Englert,  Clifton Marschel,  Kelly D. Hedlund -The Manual of Clinical Perfusion 3rd Edition" : 11,
+        "Bryan V. Lich,  D. Mark Brown  -The Manual of Clinical Perfusion 2nd Edition": 7,
+        "Karen Whalen, Carinda Feild, Rajan Radhakrishnan - Lippincott Illustrated Reviews_ Pharmacology-Wolters Kluwer (2019)" : 13
+        }
 
 embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-base-en-v1.5")
 
@@ -67,8 +76,15 @@ def response_generate(query):
 
     for i in range(3):
         src = result['context'][i].metadata['source'].split('/')[-1].strip(".pdf")
+        if src == "Cardiopulmonary Bypass and Mechanical Support- Principles and Practice":
+            src = "Glenn P. Gravlee, Richard F. Davis, John W. Hammon, Barry D. Kussman -\
+                Cardiopulmonary Bypass and Mechanical Support- Principles and Practice"
         page = result['context'][i].metadata['page']
-        page = str(int(page)+1)
+        page = int(page)+1
+        if src in dico:
+            page = page - dico[src]
+        page = str(page)
+        src = f"*{src}*"
         formatted_response += f"- Source: {src}, Page: {page}\n"
 
     return formatted_response, result_answer
