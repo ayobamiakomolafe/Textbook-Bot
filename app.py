@@ -102,7 +102,7 @@ def  main():
     #     st.session_state.history = "" 
     
     
-    st.markdown("<h1 style='text-align: center; color: blue;'> TextBook Chatbot </h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: navy;'> Perfusion Bot </h1>", unsafe_allow_html=True)
     # Initialize chat history
     if "messages" not in st.session_state:
         st.session_state.messages = []
