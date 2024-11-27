@@ -30,12 +30,13 @@ dico = {"Barbara J. Aehlert - ACLS Study Guide-Elsevier (2021)": 11,
         "Gregory S. Matte - Perfusion for Congenital Heart Surgery_ Notes on Cardiopulmonary Bypass for a Complex Patient Population-Wiley-Blackwell (2015)":14,
         "John Englert,  Clifton Marschel,  Kelly D. Hedlund -The Manual of Clinical Perfusion 3rd Edition" : 11,
         "Bryan V. Lich,  D. Mark Brown  -The Manual of Clinical Perfusion 2nd Edition": 7,
-        "Karen Whalen, Carinda Feild, Rajan Radhakrishnan - Lippincott Illustrated Reviews_ Pharmacology-Wolters Kluwer (2019)" : 13
-        }
+        "Karen Whalen, Carinda Feild, Rajan Radhakrishnan - Lippincott Illustrated Reviews_ Pharmacology-Wolters Kluwer (2019)" : 13,
+        "Graeme MacLaren, Daniel Brodie, Roberto Lorusso, Giles Peek, Ravi Thiagarajan, Leen Vercaemst - Extracorporeal Life Support-The ELSO Red Book, 6e-Extracorporeal Life Support Organization (2022)" : 35,
+        "Mulroney, Susan E._Myers, Adam K._Netter, Frank Henry - Netter's essential physiology-Elsevier (2016)" : 20}
 
 embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-base-en-v1.5")
 
-db = FAISS.load_local("faiss_index_", embeddings, allow_dangerous_deserialization=True)
+db = FAISS.load_local("latest_faiss_index", embeddings, allow_dangerous_deserialization=True)
 
 retriever = db.as_retriever(search_kwargs={"k": 3})
 
@@ -76,9 +77,14 @@ def response_generate(query):
 
     for i in range(3):
         src = result['context'][i].metadata['source'].split('/')[-1].strip(".pdf")
+
         if src == "Cardiopulmonary Bypass and Mechanical Support- Principles and Practice":
             src = "Glenn P. Gravlee, Richard F. Davis, John W. Hammon, Barry D. Kussman -\
                 Cardiopulmonary Bypass and Mechanical Support- Principles and Practice"
+
+        elif src == "- Extracorporeal Life Support-The ELSO Red Book, 6e-Extracorporeal Life Support Organization (2022)":
+            src = "Graeme MacLaren, Daniel Brodie, Roberto Lorusso, Giles Peek, Ravi Thiagarajan, Leen Vercaemst - Extracorporeal Life Support-The ELSO Red Book, 6e-Extracorporeal Life Support Organization (2022)"
+
         page = result['context'][i].metadata['page']
         page = int(page)+1
         if src in dico:
